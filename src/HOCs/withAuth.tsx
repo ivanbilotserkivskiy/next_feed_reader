@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 
 const withAuth = (Component: any) => {
   const WithAuth = (props: any) => {
-    const authorized = false;
+    const authorized = true;
     useEffect(() => {
       if (!authorized) {
-        redirect("/user/login");
+        redirect("/login");
       }
     }, []);
 
