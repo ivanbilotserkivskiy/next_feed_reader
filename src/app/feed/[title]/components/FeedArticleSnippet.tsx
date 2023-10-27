@@ -1,8 +1,7 @@
+"use client";
 import { FeedItem } from "@/types/FeedItem";
 import { getDateFromTime } from "@/utils/getDateFromTime";
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
 
 type Props = {
   article: FeedItem;

@@ -1,3 +1,4 @@
+"use client";
 import { UserFeed } from "@/types/UserFeed";
 import { useState } from "react";
 
