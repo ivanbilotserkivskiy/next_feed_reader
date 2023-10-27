@@ -56,8 +56,8 @@ const noStorageState: FeedState = {
 }
 
 const initializeStateFromLocalStorage = ()  => {
-  const storedState = localStorage.getItem('f');
-  if (storedState) {
+  const storedState = typeof window !== 'undefined' ? window.localStorage.getItem('f') : false;
+  if (storedState) { 
     const subs: subscriptionItem[] =  JSON.parse(storedState);
     return {
       subscriptions: subs,

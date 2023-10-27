@@ -11,7 +11,7 @@ const noStorageState = {
 }
 
 const initializeStateFromLocalStorage = () => {
-  const storedState = localStorage.getItem('authState');
+  const storedState = typeof window !== 'undefined' ? window.localStorage.getItem('authState') : false;
   if (storedState) {
     return JSON.parse(storedState);
   }

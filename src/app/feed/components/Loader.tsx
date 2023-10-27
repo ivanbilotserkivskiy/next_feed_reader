@@ -1,3 +1,4 @@
+"use client";
 const Loader = () => {
   return (
     <div className="flex justify-center items-center w-screen">

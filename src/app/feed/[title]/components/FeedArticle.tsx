@@ -1,3 +1,4 @@
+"use client";
 import { FeedItem } from "@/types/FeedItem";
 
 type Props = {

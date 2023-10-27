@@ -1,3 +1,4 @@
+"use client";
 import { RootState } from "@/GlobalRedux/store";
 import { getDateFromTime } from "@/utils/getDateFromTime";
 import Link from "next/link";
