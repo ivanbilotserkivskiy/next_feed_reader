@@ -1,5 +1,10 @@
 The site has been deployed here: https://feed-reader-s6n8-bcg50p4r7-ivanbilotserkivskiys-projects.vercel.app/feed
 
+In order to access and customize their RSS feeds, users must first log in with their credentials (HARDCODED). 
+
+The first part displays a parsed RSS feed. You can click on it to view articles from the feed and read additional details. You may also unsubscribe from the feed and add your own RSS resource to read by passing the link to the RSS content. 
+
+The second part shows data from the JSON Placeholder resource. You can simulate adding, editing, and deleting posts.
 Part 1: RSS Feed Viewer
 
 The first part of your RSS reader app is dedicated to effortlessly managing and consuming your favorite RSS feeds. It offers a user-friendly interface for efficiently staying updated with the latest content from various sources. Here are the key features:
@@ -19,6 +24,7 @@ To keep the feed list tidy and to remove sources that are no longer of interest,
 1.4 Adding New RSS Resources:
 
 To expand their reading horizon, users have the ability to add their own RSS resources. This is done by inputting the RSS feed's URL, and the app fetches the content and integrates it into the user's feed list. This feature is especially useful for those who want to customize their reading experience.
+
 
 Part 2: JSON Placeholder Interaction
 
