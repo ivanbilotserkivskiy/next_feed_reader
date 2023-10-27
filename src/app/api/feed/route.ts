@@ -14,8 +14,9 @@ const parse = async (url: string) => {
     for (const subscription of subscriptions) {
       const feedData = await parse(subscription);
 
-      data.push({title: feedData.title, lastBuildDate: feedData.lastBuildDate, link:feedData.feedUrl});
+      data.push({title: feedData.title, lastBuildDate: feedData.lastBuildDate, link: subscription});
     }
+
     return NextResponse.json({
       "feeds": data,
     });

@@ -2,13 +2,9 @@ import { RootState } from "@/GlobalRedux/store";
 import { getDateFromTime } from "@/utils/getDateFromTime";
 import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  fetchByLink,
-  setArticles,
-} from "@/GlobalRedux/Features/feed/feedSlice";
+import { unsubscribe } from "@/GlobalRedux/Features/feed/feedSlice";
 import { useCallback } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
 type Props = {
   title: string;
   time: string;
@@ -21,9 +17,9 @@ const FeedCard: React.FC<Props> = ({ title, time, feedLink }) => {
   const subscriptions = useSelector(
     (state: RootState) => state.feed.subscriptions
   );
-  const nextLink = subscriptions.find(
-    (subscription) => subscription.link === feedLink
-  );
+  const nextLink = subscriptions.find((subscription) => {
+    return subscription.link === feedLink;
+  });
   const nextId = nextLink?.id || "";
   const pathname = usePathname();
   const searchParams = useSearchParams()!;
@@ -37,6 +33,9 @@ const FeedCard: React.FC<Props> = ({ title, time, feedLink }) => {
     },
     [searchParams]
   );
+  const unsubscribeFeed = () => {
+    dispatch(unsubscribe(feedLink));
+  };
 
   return (
     <div className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between items-center transform transition-transform hover:scale-105 hover:cursor-pointer hover:text-blue-500">
@@ -50,6 +49,12 @@ const FeedCard: React.FC<Props> = ({ title, time, feedLink }) => {
           <span className="text-gray-600 text-sm">{feedDate}</span>
         </p>
       </Link>
+      <button
+        className="mt-2 bg-red-500 text-white font-semibold p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring"
+        onClick={() => unsubscribeFeed()}
+      >
+        Unsubscribe
+      </button>
     </div>
   );
 };
