@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+The site has been deployed here: https://feed-reader-s6n8-bcg50p4r7-ivanbilotserkivskiys-projects.vercel.app/feed
 
-## Getting Started
+Part 1: RSS Feed Viewer
 
-First, run the development server:
+The first part of your RSS reader app is dedicated to effortlessly managing and consuming your favorite RSS feeds. It offers a user-friendly interface for efficiently staying updated with the latest content from various sources. Here are the key features:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1.1 Feed Display:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The RSS feed display section provides a clean and organized layout for your subscribed feeds. Each feed is represented as a distinct card, showcasing the most recent articles and headlines from that source. Users can easily scan and navigate through the content.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.2 Article Viewer:
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Users can click on individual articles within the feed to access the full content. This feature allows for a seamless reading experience, enabling users to delve into the details of each article without having to leave the app.
 
-## Learn More
+1.3 Unsubscribe Option:
 
-To learn more about Next.js, take a look at the following resources:
+To keep the feed list tidy and to remove sources that are no longer of interest, users can unsubscribe from a feed with a simple click. The app ensures that managing subscriptions is quick and hassle-free.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1.4 Adding New RSS Resources:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+To expand their reading horizon, users have the ability to add their own RSS resources. This is done by inputting the RSS feed's URL, and the app fetches the content and integrates it into the user's feed list. This feature is especially useful for those who want to customize their reading experience.
 
-## Deploy on Vercel
+Part 2: JSON Placeholder Interaction
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The second part of the app focuses on interacting with JSON Placeholder, a resource that allows users to simulate the creation, editing, and deletion of posts. This interactive section is designed to demonstrate your app's versatility and functionality. Here's what it offers:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+2.1 Simulating Post Creation:
+
+In this section, users can simulate the creation of new posts. They can input the post's title and content, and the app will generate a new post, complete with a unique ID, for them. This feature can be useful for demonstrating content generation and management.
+
+2.2 Editing Posts:
+
+Users can also simulate the editing of existing posts. By selecting a post from the list, they can modify the post's title and content to see how your app handles updates. This showcases the app's capability to make changes to data effectively.
+
+2.3 Deleting Posts:
+
+The app allows users to simulate the deletion of posts. By selecting a post and confirming the deletion, users can witness how your app manages the removal of data. This is an important feature to demonstrate the ability to maintain data integrity.
+
+By combining these two parts, your RSS reader app provides a comprehensive solution for staying updated with your favorite RSS feeds while also showcasing its versatility through interactive JSON Placeholder integration for post management. It caters to both information consumption and data manipulation needs, making it a versatile and user-friendly tool.
