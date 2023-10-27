@@ -6,16 +6,33 @@ export interface AuthorizeState {
   authorized: boolean
 }
 
-const initialState: AuthorizeState = {
-  authorized: true
+const noStorageState = {
+  authorized: false,
 }
+
+const initializeStateFromLocalStorage = () => {
+  const storedState = localStorage.getItem('authState');
+  if (storedState) {
+    return JSON.parse(storedState);
+  }
+  return noStorageState;
+};
+
+const initialState: AuthorizeState = initializeStateFromLocalStorage()
+
 
 export const authorizeSlice = createSlice({
   name: 'authorize',
   initialState,
   reducers: {
-    login: (state) => { state.authorized = true },
-    logout: (state) => { state.authorized = false }
+    login: (state) => { 
+      state.authorized = true 
+      localStorage.setItem('authState', JSON.stringify(state))
+    },
+    logout: (state) => { 
+      state.authorized = false 
+      localStorage.setItem('authState', JSON.stringify(state))
+    }
   }
 })
 

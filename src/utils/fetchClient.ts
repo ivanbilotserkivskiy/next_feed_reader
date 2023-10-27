@@ -1,5 +1,5 @@
 
-type RequestMethod = 'GET' | 'POST' | 'PUT';
+type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
 
 function request<T>(
   url: string,
@@ -23,6 +23,7 @@ function request<T>(
 export const client = {
   get: <T>(url: string) => request<T>(url),
   post: <T>(url: string, data: any) => request<T>(url, 'POST', data),
+  delete: <T>(url: string) => request<T>(url, 'DELETE'),
   put: <T>(url: string, data: any) => request<T>(url, 'PUT', data),
 };
 

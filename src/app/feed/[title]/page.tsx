@@ -4,14 +4,15 @@ import withAuth from "@/HOCs/withAuth";
 import FeedArticleSnippet from "./components/FeedArticleSnippet";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/GlobalRedux/store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { fetchByLink } from "@/GlobalRedux/Features/feed/feedSlice";
+import { FeedItem } from "@/types/FeedItem";
+import FeedArticle from "./components/FeedArticle";
 
 const FeedStream = () => {
   const articles = useSelector((state: RootState) => state.feed.articles);
   const dispatch = useDispatch();
-  console.log(articles);
   const subscriptions = useSelector(
     (state: RootState) => state.feed.subscriptions
   );
@@ -22,6 +23,19 @@ const FeedStream = () => {
     (subscription) => subscription.id === linkId
   );
 
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [currentArticle, setCurrentArticle] = useState<FeedItem | null>(null);
+
+  const openModal = (article: FeedItem) => {
+    setCurrentArticle(article);
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setCurrentArticle(null);
+    setShowModal(false);
+  };
+
   const fetchLink = nextLink?.link || "";
 
   useEffect(() => {
@@ -29,23 +43,24 @@ const FeedStream = () => {
   }, [dispatch, fetchLink]);
 
   return (
-    <div className="p-12">
-      {articles.map((article) => (
-        <FeedArticleSnippet
-          key={article.isoDate}
-          author={
-            article.author
-              ? article.author
-              : article.creator
-              ? article.creator
-              : ""
-          }
-          time={article.isoDate}
-          title={article.title}
-          content={article.contentSnippet}
+    <>
+      <div className="p-12">
+        {articles.map((article) => (
+          <FeedArticleSnippet
+            key={article.isoDate}
+            article={article}
+            openModal={openModal}
+          />
+        ))}
+      </div>
+      {currentArticle ? (
+        <FeedArticle
+          currentArticle={currentArticle}
+          showModal={showModal}
+          closeModal={closeModal}
         />
-      ))}
-    </div>
+      ) : null}
+    </>
   );
 };
 

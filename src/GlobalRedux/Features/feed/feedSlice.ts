@@ -33,7 +33,7 @@ export const fetchByLink = createAsyncThunk<FeedArticlesResponse, string,  { sta
   }
 })
 
-const initialState: FeedState = {
+const noStorageState: FeedState = {
   subscriptions: [
     {
       id: '1',
@@ -50,18 +50,50 @@ const initialState: FeedState = {
 
 
   ],
-  articles: [],
+  articles: [] as FeedItem[],
   status: 'idle',
   error: ''
 }
+
+const initializeStateFromLocalStorage = ()  => {
+  const storedState = localStorage.getItem('f');
+  if (storedState) {
+    const subs: subscriptionItem[] =  JSON.parse(storedState);
+    return {
+      subscriptions: subs,
+      articles: [] as FeedItem[],
+      status: 'idle',
+      error: ''}
+      ;
+  }
+  return noStorageState;
+};
+
+const initialState: FeedState = initializeStateFromLocalStorage();
 
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
   reducers: {
-    subscribe: (state, action) => { state.subscriptions.push(action.payload) },
-    unsubscribe: (state, action) => { state.subscriptions.filter((subscription) => subscription.id !== action.payload.id) },
-    setArticles: (state, action) => {state.articles = [...action.payload]}
+    subscribe: (state, action) => { 
+      const newSubscription: subscriptionItem = {
+        id: nanoid(),
+        link: action.payload,
+      };
+      state.subscriptions =  [...state.subscriptions, newSubscription ] 
+      localStorage.setItem('f', JSON.stringify(state.subscriptions))
+    },
+    unsubscribe: (state, action) => {
+      const subId = state.subscriptions.findIndex((subscription) => subscription.link === action.payload);
+      console.log(subId)
+      if (subId !== -1) {
+       state.subscriptions = state.subscriptions.filter((_, index) => index !== subId);
+      }
+      localStorage.setItem('f', JSON.stringify(state.subscriptions))
+    },
+    setArticles: (state, action) => {
+      state.articles = [...action.payload]
+    }
   },
   extraReducers(builder) {
     builder.addCase(fetchByLink.pending, (state, action) => {
