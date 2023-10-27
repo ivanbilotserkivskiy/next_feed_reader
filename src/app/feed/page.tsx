@@ -2,7 +2,6 @@
 
 import { RootState } from "@/GlobalRedux/store";
 import withAuth from "@/HOCs/withAuth";
-import { FeedData } from "@/types/FeedData";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { getFeedData } from "../api/api";
@@ -17,8 +16,11 @@ const FeedPage = () => {
   const [feeds, setFeeds] = useState<FeedCardType[]>([]);
 
   const getData = async () => {
+    const subscriptionLinks = subscriptions.map(
+      (subscription) => subscription.link
+    );
     try {
-      const feedData = await getFeedData("/api/feed/", subscriptions);
+      const feedData = await getFeedData("/api/feed/", subscriptionLinks);
       if (feedData.error) {
         return;
       }
@@ -37,6 +39,7 @@ const FeedPage = () => {
         {feeds.map((feed) => (
           <FeedCard
             key={feed.title}
+            feedLink={feed.link}
             title={feed.title}
             time={feed.lastBuildDate}
           />

@@ -4,21 +4,16 @@ const parser = new RSSParser();
 
 const parse = async (url: string) => {
   const feed = await parser.parseURL(url);
+
   return feed
 }
 
  export async function POST(req: NextRequest) {
   try {
-    const data = [];
     const subscriptions = await req.json();
-    for (const subscription of subscriptions) {
-      const feedData = await parse(subscription);
+    const feedData = await parse(subscriptions);
 
-      data.push({title: feedData.title, lastBuildDate: feedData.lastBuildDate, link:feedData.feedUrl});
-    }
-    return NextResponse.json({
-      "feeds": data,
-    });
+    return NextResponse.json({"feeds": feedData.items});
   }
   catch {
     return NextResponse.json({
