@@ -1,4 +1,4 @@
-The site has been deployed here: https://feed-reader-s6n8-bcg50p4r7-ivanbilotserkivskiys-projects.vercel.app/feed
+The site has been deployed here: https://feed-reader-s6n8-mb08giior-ivanbilotserkivskiys-projects.vercel.app/feed
 
 In order to access and customize their RSS feeds, users must first log in with their credentials (HARDCODED). 
 
