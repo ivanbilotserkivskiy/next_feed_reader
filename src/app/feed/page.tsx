@@ -2,15 +2,17 @@
 
 import { RootState } from "@/GlobalRedux/store";
 import withAuth from "@/HOCs/withAuth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createUserFeed,
-  getExternalFeeds,
   getFeedData,
   getUserFeeds,
+  removeUserFeed,
   updateUserFeed,
 } from "../api/api";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import FeedCard from "./components/FeedCard";
 import { FeedCard as FeedCardType } from "@/types/FeedCard";
 import { subscribe } from "@/GlobalRedux/Features/feed/feedSlice";
@@ -31,9 +33,11 @@ const FeedPage = () => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [showFormModal, setShowFromModal] = useState<boolean>(false);
+  const [showFormModal, setShowFormModal] = useState<boolean>(false);
   const [currentArticle, setCurrentArticle] = useState<UserFeed | null>(null);
 
+  const notify = (message: string) => toast(message);
+  const notifyError = (message: string) => toast.error(message);
   const openModal = (article: UserFeed) => {
     setCurrentArticle(article);
     setShowModal(true);
@@ -55,11 +59,14 @@ const FeedPage = () => {
 
         return userFeed;
       });
+      notify("User data updated");
       setUserFeeds(newUserFeeds);
       setIsEditing(false);
       setShowModal(false);
       setCurrentArticle(null);
-    } catch {}
+    } catch {
+      notifyError("An error occurred in updating user data");
+    }
   };
 
   const getData = async () => {
@@ -74,6 +81,7 @@ const FeedPage = () => {
       }
       setFeeds(feedData.feeds);
     } catch {
+      notifyError("An error occurred in loading rss feeds");
     } finally {
       setIsLoading(false);
     }
@@ -86,7 +94,9 @@ const FeedPage = () => {
         return;
       }
       setUserFeeds(feedData.feeds);
-    } catch {}
+    } catch {
+      notifyError("An error occurred in loading user feeds");
+    }
   };
 
   const changeFeedURL = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,15 +126,24 @@ const FeedPage = () => {
       };
       await createUserFeed(newFeedToServer);
       setUserFeeds((prev) => [...prev, newFeedToServer]);
-    } catch {}
+      notify("New User feed was created");
+    } catch {
+      notifyError("An error occurred in creating user feede");
+    }
   };
 
-  const removeUserFeed = (id: number) => {
-    setUserFeeds((prev) => prev.filter((feed) => feed.id !== id));
+  const removeFeed = async (id: number) => {
+    try {
+      await removeUserFeed(id);
+      setUserFeeds((prev) => prev.filter((feed) => feed.id !== id));
+      notify("You unsubscribed from user feed");
+    } catch {
+      notifyError("An error occurred in deleting user feed");
+    }
   };
 
   const closeFormModal = () => {
-    setShowFromModal(false);
+    setShowFormModal(false);
   };
 
   useEffect(() => {
@@ -137,6 +156,7 @@ const FeedPage = () => {
 
   return (
     <div className="p-4 flex flex-col items-center h-screen">
+      <ToastContainer />
       <h1 className="text-2xl font-semibold mb-4">Feed Page</h1>
       <form className="flex items-center p-6">
         <div className="flex flex-col">
@@ -177,20 +197,17 @@ const FeedPage = () => {
         <div>
           <button
             className="self-end ml-2 bg-green-500 text-white font-semibold p-2 rounded-md hover:bg-green-600 focus:outline-none focus:ring"
-            onClick={() => setShowFromModal(true)}
+            onClick={() => setShowFormModal(true)}
           >
-            Create From
+            Create Form
           </button>
-          {showFormModal ? (
-            <UserFeedForm closeModal={closeFormModal} createFeed={createFeed} />
-          ) : null}
         </div>
         <div className="p-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
           {userFeeds.map((feed) => (
             <UserFeedCard
               key={feed.id}
               feed={feed}
-              removeUserFeed={removeUserFeed}
+              removeUserFeed={removeFeed}
               openModal={openModal}
               startEditing={startEditing}
             />
@@ -204,6 +221,9 @@ const FeedPage = () => {
         closeModal={closeModal}
         updateUserFeedData={updateUserFeedData}
       />
+      {showFormModal ? (
+        <UserFeedForm closeModal={closeFormModal} createFeed={createFeed} />
+      ) : null}
     </div>
   );
 };

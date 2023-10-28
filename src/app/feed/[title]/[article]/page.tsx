@@ -2,10 +2,8 @@
 
 import { RootState } from "@/GlobalRedux/store";
 import withAuth from "@/HOCs/withAuth";
-import { getFeedData } from "@/app/api/api";
 import { FeedItem } from "@/types/FeedItem";
 import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 

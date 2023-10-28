@@ -34,6 +34,7 @@ const UserFeedForm: React.FC<Props> = ({ createFeed, closeModal }) => {
     event.preventDefault();
     createFeed(formData as UserFeed);
     clearForm();
+    closeModal();
   };
 
   return (

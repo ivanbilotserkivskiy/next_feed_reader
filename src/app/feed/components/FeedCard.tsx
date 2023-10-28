@@ -42,20 +42,25 @@ const FeedCard: React.FC<Props> = ({ title, time, feedLink }) => {
     <div className="bg-white shadow-md rounded-lg p-4 flex flex-col justify-between items-center transform transition-transform hover:scale-105 hover:cursor-pointer hover:text-blue-500">
       <Link
         href={pathname + `/${title}` + "?" + createQueryString("feed", nextId)}
+        className="flex justify-center w-full"
         target="_blank"
       >
-        <h2 className="text-center text-xl font-semibold mb-1">{title}</h2>
+        <h2 className="text-center w-4/6 text-xl font-semibold mb-1">
+          {title}
+        </h2>
+      </Link>
+      <div className="flex flex-col justify-center mt-2">
         <p className="">
           <span className="mr-4 text-black dark:text-white">Last update: </span>
           <span className="text-gray-600 text-sm">{feedDate}</span>
         </p>
-      </Link>
-      <button
-        className="mt-2 bg-red-500 text-white font-semibold p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring"
-        onClick={() => unsubscribeFeed()}
-      >
-        Unsubscribe
-      </button>
+        <button
+          className="mt-2 bg-red-500 text-white font-semibold p-2 rounded-md hover:bg-red-600 focus:outline-none focus:ring"
+          onClick={() => unsubscribeFeed()}
+        >
+          Unsubscribe
+        </button>
+      </div>
     </div>
   );
 };
